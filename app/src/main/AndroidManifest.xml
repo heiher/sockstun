@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		package="hev.sockstun">
+	<application android:label="@string/app_name" android:theme="@android:style/Theme.Holo">
+		<service android:name=".TProxyService" android:process=":native"
+				android:permission="android.permission.BIND_VPN_SERVICE">
+			<intent-filter>
+				<action android:name="android.net.VpnService"/>
+			</intent-filter>
+		</service>
+		<receiver android:enabled="true" android:name=".ServiceReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+			</intent-filter>
+		</receiver>
+		<activity android:name=".MainActivity" android:label="@string/app_name"
+				android:excludeFromRecents="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity android:name=".AppListActivity" android:label="@string/app_name"/>
+	</application>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+</manifest>

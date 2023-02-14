@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">SocksTun</string>
+	<string name="socks_addr">Socks Address:</string>
+	<string name="socks_port">Socks Port:</string>
+	<string name="socks_user">Socks Username:</string>
+	<string name="socks_pass">Socks Password:</string>
+	<string name="dns_ipv4">DNS IPv4:</string>
+	<string name="dns_ipv6">DNS IPv6:</string>
+	<string name="ipv4">IPv4</string>
+	<string name="ipv6">IPv6</string>
+	<string name="global">Global</string>
+	<string name="apps">Apps</string>
+	<string name="save">Save</string>
+	<string name="control_enable">Enable</string>
+	<string name="control_disable">Disable</string>
+</resources>

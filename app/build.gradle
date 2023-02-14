@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+
+android {
+	compileSdkVersion 24
+
+	defaultConfig {
+		applicationId "hev.sockstun"
+		minSdkVersion 24
+		targetSdkVersion 24
+		versionCode 1
+		versionName "1.0"
+		setProperty("archivesBaseName", "$applicationId-$versionName")
+		ndk {
+			abiFilters "armeabi-v7a", "arm64-v8a"
+		}
+	}
+
+	signingConfigs {
+	   release {
+	   }
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			signingConfig signingConfigs.release
+		}
+	}
+
+	def propsFile = rootProject.file('gradle.properties')
+	def configName = 'release'
+
+	if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
+		def props = new Properties()
+		props.load(new FileInputStream(propsFile))
+		if (props!=null && props.containsKey('storeFile')) {
+			android.signingConfigs[configName].storeFile = rootProject.file(props['storeFile'])
+			android.signingConfigs[configName].storePassword = props['storePassword']
+			android.signingConfigs[configName].keyAlias = props['keyAlias']
+			android.signingConfigs[configName].keyPassword = props['keyPassword']
+		}
+	}
+
+	externalNativeBuild {
+		ndkBuild {
+			path "src/main/jni/Android.mk"
+		}
+	}
+
+	lintOptions {
+		checkReleaseBuilds false
+		// Or, if you prefer, you can continue to check for errors in release builds,
+		// but continue the build even when errors are found:
+		abortOnError false
+	}
+}
+
