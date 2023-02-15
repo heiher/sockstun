@@ -5,7 +5,7 @@ A simple and lightweight VPN over socks5 proxy for Android. It is based on a hig
 ## Features
 
 * Redirect TCP connections.
-* Redirect UDP packets. (Fullcone NAT, UDP over TCP, works with [hev-socks5-server](https://github.com/heiher/hev-socks5-server) only)
+* Redirect UDP packets. (Fullcone NAT, UDP in UDP/TCP)
 * Simple username/password authentication.
 * Specifying DNS addresses.
 * IPv4/IPv6 dual stack.

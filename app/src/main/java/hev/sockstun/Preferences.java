@@ -26,6 +26,7 @@ public class Preferences
 	public static final String IPV4 = "Ipv4";
 	public static final String IPV6 = "Ipv6";
 	public static final String GLOBAL = "Global";
+	public static final String UDP_IN_TCP = "UdpInTcp";
 	public static final String APPS = "Apps";
 	public static final String ENABLE = "Enable";
 
@@ -92,6 +93,16 @@ public class Preferences
 	public void setDnsIpv6(String addr) {
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(DNS_IPV6, addr);
+		editor.commit();
+	}
+
+	public boolean getUdpInTcp() {
+		return prefs.getBoolean(UDP_IN_TCP, true);
+	}
+
+	public void setUdpInTcp(boolean enable) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(UDP_IN_TCP, enable);
 		editor.commit();
 	}
 

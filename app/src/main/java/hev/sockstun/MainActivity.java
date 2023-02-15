@@ -28,6 +28,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private EditText edittext_socks_pass;
 	private EditText edittext_dns_ipv4;
 	private EditText edittext_dns_ipv6;
+	private CheckBox checkbox_udp_in_tcp;
 	private CheckBox checkbox_global;
 	private CheckBox checkbox_ipv4;
 	private CheckBox checkbox_ipv6;
@@ -51,10 +52,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		checkbox_ipv4 = (CheckBox) findViewById(R.id.ipv4);
 		checkbox_ipv6 = (CheckBox) findViewById(R.id.ipv6);
 		checkbox_global = (CheckBox) findViewById(R.id.global);
+		checkbox_udp_in_tcp = (CheckBox) findViewById(R.id.udp_in_tcp);
 		button_apps = (Button) findViewById(R.id.apps);
 		button_save = (Button) findViewById(R.id.save);
 		button_control = (Button) findViewById(R.id.control);
 
+		checkbox_udp_in_tcp.setOnClickListener(this);
 		checkbox_global.setOnClickListener(this);
 		button_apps.setOnClickListener(this);
 		button_save.setOnClickListener(this);
@@ -111,6 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		checkbox_ipv4.setChecked(prefs.getIpv4());
 		checkbox_ipv6.setChecked(prefs.getIpv6());
 		checkbox_global.setChecked(prefs.getGlobal());
+		checkbox_udp_in_tcp.setChecked(prefs.getUdpInTcp());
 
 		boolean editable = !prefs.getEnable();
 		edittext_socks_addr.setEnabled(editable);
@@ -119,6 +123,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		edittext_socks_pass.setEnabled(editable);
 		edittext_dns_ipv4.setEnabled(editable);
 		edittext_dns_ipv6.setEnabled(editable);
+		checkbox_udp_in_tcp.setEnabled(editable);
 		checkbox_global.setEnabled(editable);
 		checkbox_ipv4.setEnabled(editable);
 		checkbox_ipv6.setEnabled(editable);
@@ -143,5 +148,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		prefs.setIpv4(checkbox_ipv4.isChecked());
 		prefs.setIpv6(checkbox_ipv6.isChecked());
 		prefs.setGlobal(checkbox_global.isChecked());
+		prefs.setUdpInTcp(checkbox_udp_in_tcp.isChecked());
 	}
 }

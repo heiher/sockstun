@@ -137,7 +137,8 @@ public class TProxyService extends VpnService {
 
 			tproxy_conf += "socks5:\n" +
 				"  port: " + prefs.getSocksPort() + "\n" +
-				"  address: '" + prefs.getSocksAddress() + "'\n";
+				"  address: '" + prefs.getSocksAddress() + "'\n" +
+				"  udp: '" + (prefs.getUdpInTcp() ? "tcp" : "udp") + "'\n";
 
 			if (!prefs.getSocksUsername().isEmpty() &&
 				!prefs.getSocksPassword().isEmpty()) {

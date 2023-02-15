@@ -7,6 +7,7 @@
 	<string name="socks_pass">Socks Password:</string>
 	<string name="dns_ipv4">DNS IPv4:</string>
 	<string name="dns_ipv6">DNS IPv6:</string>
+	<string name="udp_in_tcp">UDP relay over TCP</string>
 	<string name="ipv4">IPv4</string>
 	<string name="ipv6">IPv6</string>
 	<string name="global">Global</string>
