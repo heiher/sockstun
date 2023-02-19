@@ -19,7 +19,9 @@ cd sockstun
 gradle assembleDebug
 ```
 
-## Server side
+## Socks5 Server
+
+### UDP relay over TCP
 
 ```bash
 git clone --recursive https://github.com/heiher/hev-socks5-server
@@ -38,6 +40,10 @@ main:
 misc:
   limit-nofile: 65535
 ```
+
+### UDP relay over UDP
+
+Any socks5 server that implements the CONNECT and UDP-ASSOCIATE methods of RFC1928.
 
 ## Dependencies
 
