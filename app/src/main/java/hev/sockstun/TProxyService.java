@@ -119,21 +119,7 @@ public class TProxyService extends VpnService {
 			String tproxy_conf = "misc:\n" +
 				"  task-stack-size: " + prefs.getTaskStackSize() + "\n" +
 				"tunnel:\n" +
-				"  name: '" + prefs.getTunnelName() + "'\n" +
 				"  mtu: " + prefs.getTunnelMtu() + "\n";
-
-			if (prefs.getIpv4()) {
-				tproxy_conf += "  ipv4:\n" +
-				"    address: '" + prefs.getTunnelIpv4Address() + "'\n" +
-				"    gateway: '" + prefs.getTunnelIpv4Gateway() + "'\n" +
-				"    prefix: " + prefs.getTunnelIpv4Prefix() + "\n";
-			}
-			if (prefs.getIpv6()) {
-				tproxy_conf += "  ipv6:\n" +
-				"    address: '" + prefs.getTunnelIpv6Address() + "'\n" +
-				"    gateway: '" + prefs.getTunnelIpv6Gateway() + "'\n" +
-				"    prefix: " + prefs.getTunnelIpv6Prefix() + "\n";
-			}
 
 			tproxy_conf += "socks5:\n" +
 				"  port: " + prefs.getSocksPort() + "\n" +

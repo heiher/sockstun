@@ -156,36 +156,24 @@ public class Preferences
 		editor.commit();
 	}
 
-	public String getTunnelName() {
-		return "tun0";
-	}
-
 	public int getTunnelMtu() {
 		return 9000;
 	}
 
 	public String getTunnelIpv4Address() {
-		return "100.64.0.2";
-	}
-
-	public String getTunnelIpv4Gateway() {
-		return "100.64.0.1";
+		return "198.18.0.1";
 	}
 
 	public int getTunnelIpv4Prefix() {
-		return 30;
+		return 32;
 	}
 
 	public String getTunnelIpv6Address() {
-		return "fc00::2";
-	}
-
-	public String getTunnelIpv6Gateway() {
 		return "fc00::1";
 	}
 
 	public int getTunnelIpv6Prefix() {
-		return 126;
+		return 128;
 	}
 
 	public int getTaskStackSize() {
