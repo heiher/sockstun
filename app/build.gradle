@@ -1,57 +1,68 @@
-apply plugin: 'com.android.application'
-
-android {
-	compileSdkVersion 24
-
-	defaultConfig {
-		applicationId "hev.sockstun"
-		minSdkVersion 24
-		targetSdkVersion 24
-		versionCode 1
-		versionName "1.3"
-		setProperty("archivesBaseName", "$applicationId-$versionName")
-		ndk {
-			abiFilters "armeabi-v7a", "arm64-v8a"
-		}
-	}
-
-	signingConfigs {
-	   release {
-	   }
-	}
-
-	buildTypes {
-		release {
-			minifyEnabled false
-			signingConfig signingConfigs.release
-		}
-	}
-
-	def propsFile = rootProject.file('gradle.properties')
-	def configName = 'release'
-
-	if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
-		def props = new Properties()
-		props.load(new FileInputStream(propsFile))
-		if (props!=null && props.containsKey('storeFile')) {
-			android.signingConfigs[configName].storeFile = rootProject.file(props['storeFile'])
-			android.signingConfigs[configName].storePassword = props['storePassword']
-			android.signingConfigs[configName].keyAlias = props['keyAlias']
-			android.signingConfigs[configName].keyPassword = props['keyPassword']
-		}
-	}
-
-	externalNativeBuild {
-		ndkBuild {
-			path "src/main/jni/Android.mk"
-		}
-	}
-
-	lintOptions {
-		checkReleaseBuilds false
-		// Or, if you prefer, you can continue to check for errors in release builds,
-		// but continue the build even when errors are found:
-		abortOnError false
-	}
+plugins
+{
+    id 'com.android.application'
 }
 
+android
+{
+    buildToolsVersion '33.0.2'
+    namespace 'hev.sockstun'
+
+    defaultConfig
+    {
+        applicationId 'hev.sockstun'
+
+        versionName '1.4'
+        versionCode 1
+
+        compileSdk 33
+        targetSdk 33
+        minSdk 21
+
+        ndk
+        {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    signingConfigs
+    {
+        Sign
+        {
+            storeFile file('PathToSign.jks')
+            storePassword 'PlaceHolder'
+            keyPassword 'PlaceHolder'
+            keyAlias 'PlaceHolder'
+        }
+    }
+
+    buildTypes
+    {
+        release
+        {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.Sign
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild
+    {
+        ndkBuild
+        {
+            path "src/main/jni/Android.mk"
+        }
+    }
+
+    lintOptions
+    {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies
+{
+    implementation 'androidx.core:core:1.9.0'
+}
