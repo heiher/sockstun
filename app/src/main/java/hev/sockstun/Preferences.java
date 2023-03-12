@@ -157,7 +157,7 @@ public class Preferences
 	}
 
 	public int getTunnelMtu() {
-		return 9000;
+		return 8500;
 	}
 
 	public String getTunnelIpv4Address() {
