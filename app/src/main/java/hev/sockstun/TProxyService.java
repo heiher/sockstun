@@ -68,17 +68,21 @@ public class TProxyService extends VpnService {
 		if (prefs.getIpv4()) {
 			String addr = prefs.getTunnelIpv4Address();
 			int prefix = prefs.getTunnelIpv4Prefix();
+			String dns = prefs.getDnsIpv4();
 			builder.addAddress(addr, prefix);
 			builder.addRoute("0.0.0.0", 0);
-			builder.addDnsServer(prefs.getDnsIpv4());
+			if (!dns.isEmpty())
+			  builder.addDnsServer(dns);
 			session += "IPv4";
 		}
 		if (prefs.getIpv6()) {
 			String addr = prefs.getTunnelIpv6Address();
 			int prefix = prefs.getTunnelIpv6Prefix();
+			String dns = prefs.getDnsIpv6();
 			builder.addAddress(addr, prefix);
 			builder.addRoute("::", 0);
-			builder.addDnsServer(prefs.getDnsIpv6());
+			if (!dns.isEmpty())
+			  builder.addDnsServer(dns);
 			if (!session.isEmpty())
 			  session += " + ";
 			session += "IPv6";
