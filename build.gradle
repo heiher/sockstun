@@ -7,43 +7,21 @@
  */
 
 buildscript {
-
-	/**
-	 * The repositories block configures the repositories Gradle uses to
-	 * search or download the dependencies. Gradle pre-configures support for remote
-	 * repositories such as JCenter, Maven Central, and Ivy. You can also use local
-	 * repositories or define your own remote repositories. The code below defines
-	 * JCenter as the repository Gradle should use to look for its dependencies.
-	 */
-
-	repositories {
-		jcenter()
-		google()
-	}
-
-	/**
-	 * The dependencies block configures the dependencies Gradle needs to use
-	 * to build your project. The following line adds Android plugin for Gradle
-	 * version 2.3.1 as a classpath dependency.
-	 */
-
-	dependencies {
-		classpath 'com.android.tools.build:gradle:4.2.0'
+	ext {
+		agp_verson= '7.4.2'
+		kotlin_version = '1.8.10'
+		compile_sdk_version = 33
+		build_tool_version = '33.0.1'
 	}
 }
+plugins {
+	id 'com.android.application' version "$agp_verson" apply false
+	//id 'com.android.library' version "$agp_verson" apply false
+	//id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
 
-/**
- * The allprojects block is where you configure the repositories and
- * dependencies used by all modules in your project, such as third-party plugins
- * or libraries. Dependencies that are not required by all the modules in the
- * project should be configured in module-level build.gradle files. For new
- * projects, Android Studio configures JCenter as the default repository, but it
- * does not configure any dependencies.
- */
+}
 
-allprojects {
-	repositories {
-		google()
-		jcenter()
-	}
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
 }

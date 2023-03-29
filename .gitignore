@@ -1,3 +1,5 @@
+.idea
 .gradle
-app/.externalNativeBuild
+local.properties
 app/build
+app/.externalNativeBuild

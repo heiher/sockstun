@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<id name="viewBinding" />
 	<string name="app_name">SocksTun</string>
 	<string name="socks_addr">Socks Address:</string>
 	<string name="socks_port">Socks Port:</string>

@@ -1,57 +1,74 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    //id 'org.jetbrains.kotlin.android'
+}
 
 android {
-	compileSdkVersion 24
+    compileSdk compile_sdk_version
+    buildToolsVersion = build_tool_version
+    ndkVersion "21.4.7075529"
 
-	defaultConfig {
-		applicationId "hev.sockstun"
-		minSdkVersion 24
-		targetSdkVersion 24
-		versionCode 1
-		versionName "1.3"
-		setProperty("archivesBaseName", "$applicationId-$versionName")
-		ndk {
-			abiFilters "armeabi-v7a", "arm64-v8a"
-		}
-	}
+    namespace 'hev.sockstun'
 
-	signingConfigs {
-	   release {
-	   }
-	}
+    defaultConfig {
+        applicationId 'hev.sockstun'
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			signingConfig signingConfigs.release
-		}
-	}
+        versionName '1.4'
+        versionCode 1
+        targetSdk 33
+        minSdk 21
 
-	def propsFile = rootProject.file('gradle.properties')
-	def configName = 'release'
+        setProperty("archivesBaseName", "$applicationId-$versionName")
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
 
-	if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
-		def props = new Properties()
-		props.load(new FileInputStream(propsFile))
-		if (props!=null && props.containsKey('storeFile')) {
-			android.signingConfigs[configName].storeFile = rootProject.file(props['storeFile'])
-			android.signingConfigs[configName].storePassword = props['storePassword']
-			android.signingConfigs[configName].keyAlias = props['keyAlias']
-			android.signingConfigs[configName].keyPassword = props['keyPassword']
-		}
-	}
+        externalNativeBuild {
+            ndkBuild {
+                arguments "-j${Runtime.runtime.availableProcessors()}"
+            }
+        }
+    }
 
-	externalNativeBuild {
-		ndkBuild {
-			path "src/main/jni/Android.mk"
-		}
-	}
+    signingConfigs {
+            release {
+                keyAlias 'key'
+                keyPassword '1234567890'
+                storeFile file('../public.jks')
+                storePassword '1234567890'
+                v1SigningEnabled true
+                v2SigningEnabled true
+                enableV3Signing = true
+                enableV4Signing = true
+            }
+    }
 
-	lintOptions {
-		checkReleaseBuilds false
-		// Or, if you prefer, you can continue to check for errors in release builds,
-		// but continue the build even when errors are found:
-		abortOnError false
-	}
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        ndkBuild.path "src/main/jni/Android.mk"
+    }
+
+
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    //implementation 'androidx.core:core:1.9.0'
 }
 

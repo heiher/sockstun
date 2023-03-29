@@ -9,31 +9,30 @@
 
 package hev.sockstun;
 
-import java.util.Set;
-import java.util.List;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.Collections;
 import android.Manifest;
-import android.os.Bundle;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageInfo;
-import android.content.pm.ApplicationInfo;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+
+import hev.sockstun.databinding.AppitemBinding;
 
 public class AppListActivity extends ListActivity {
+
 	private Preferences prefs;
+	public PackageManager pm;
 	private boolean isChanged = false;
 
 	private class Package {
@@ -49,39 +48,40 @@ public class AppListActivity extends ListActivity {
 	}
 
 	private class AppArrayAdapter extends ArrayAdapter<Package> {
+
 		public AppArrayAdapter(Context context) {
 			super(context, R.layout.appitem);
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.appitem, parent, false);
-			ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-			TextView textView = (TextView) rowView.findViewById(R.id.name);
-			CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checked);
+			AppitemBinding binding;
+			if (convertView==null){
+				binding=AppitemBinding.inflate(getLayoutInflater(),parent,false);
+				convertView = binding.getRoot();
+				convertView.setTag(R.id.viewBinding, binding);
+			}else {
+				binding = (AppitemBinding) convertView.getTag(R.id.viewBinding);
+			}
 
 			Package pkg = getItem(position);
-			PackageManager pm = getContext().getPackageManager();
 			ApplicationInfo appinfo = pkg.info.applicationInfo;
-			imageView.setImageDrawable(appinfo.loadIcon(pm));
-			textView.setText(appinfo.loadLabel(pm).toString());
-			checkBox.setChecked(pkg.selected);
+			binding.icon.setImageDrawable(appinfo.loadIcon(pm));
+			binding.name.setText(appinfo.loadLabel(pm));
+			binding.checked.setChecked(pkg.selected);
 
-			return rowView;
+			return convertView;
 		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		pm = getPackageManager();
 		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 		prefs = new Preferences(this);
 		Set<String> apps = prefs.getApps();
-		PackageManager pm = getPackageManager();
 		AppArrayAdapter adapter = new AppArrayAdapter(this);
 
 		for (PackageInfo info : pm.getInstalledPackages(PackageManager.GET_PERMISSIONS)) {

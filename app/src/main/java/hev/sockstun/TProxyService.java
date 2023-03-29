@@ -113,6 +113,7 @@ public class TProxyService extends VpnService {
 			stopSelf();
 			return;
 		}
+		protect(tunFd.getFd());
 
 		/* TProxy */
 		File tproxy_file = new File(getCacheDir(), "tproxy.conf");
@@ -144,14 +145,8 @@ public class TProxyService extends VpnService {
 		TProxyStartService(tproxy_file.getAbsolutePath(), tunFd.getFd());
 		prefs.setEnable(true);
 
-		Intent i = new Intent(this, TProxyService.class);
-		PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
-		Notification notify = new Notification.Builder(this)
-			.setContentTitle(getString(R.string.app_name))
-			.setSmallIcon(android.R.drawable.sym_def_app_icon)
-			.setContentIntent(pi)
-			.build();
-		startForeground(1, notify);
+		NotificationUtils.startForegroundService(this);
+
 	}
 
 	public void stopService() {
