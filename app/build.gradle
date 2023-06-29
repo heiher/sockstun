@@ -1,23 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 24
+	compileSdkVersion 31
 
 	defaultConfig {
 		applicationId "hev.sockstun"
 		minSdkVersion 24
-		targetSdkVersion 24
+		targetSdkVersion 31
 		versionCode 1
 		versionName "1.5"
 		setProperty("archivesBaseName", "$applicationId-$versionName")
 		ndk {
-			abiFilters "armeabi-v7a", "arm64-v8a"
+			abiFilters "armeabi-v7a", "arm64-v8a",'x86','x86_64'
 		}
 	}
 
 	signingConfigs {
-	   release {
-	   }
+		release {
+		}
 	}
 
 	buildTypes {
@@ -25,9 +25,13 @@ android {
 			minifyEnabled false
 			signingConfig signingConfigs.release
 		}
+        debug {
+			minifyEnabled false
+			signingConfig signingConfigs.release
+		}
 	}
 
-	def propsFile = rootProject.file('gradle.properties')
+	def propsFile = rootProject.file('store.properties')
 	def configName = 'release'
 
 	if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
@@ -55,3 +59,6 @@ android {
 	}
 }
 
+dependencies {
+	implementation 'androidx.appcompat:appcompat:1.4.1'
+}

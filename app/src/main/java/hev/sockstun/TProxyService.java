@@ -12,6 +12,11 @@ package hev.sockstun;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -19,6 +24,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.VpnService;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import androidx.core.app.NotificationCompat;
 
 public class TProxyService extends VpnService {
 	private static native void TProxyStartService(String config_path, int fd);
@@ -144,14 +151,9 @@ public class TProxyService extends VpnService {
 		TProxyStartService(tproxy_file.getAbsolutePath(), tunFd.getFd());
 		prefs.setEnable(true);
 
-		Intent i = new Intent(this, TProxyService.class);
-		PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
-		Notification notify = new Notification.Builder(this)
-			.setContentTitle(getString(R.string.app_name))
-			.setSmallIcon(android.R.drawable.sym_def_app_icon)
-			.setContentIntent(pi)
-			.build();
-		startForeground(1, notify);
+		String channelName = "socks5";
+		initNotificationChannel(channelName);
+		createNotification(channelName);
 	}
 
 	public void stopService() {
@@ -171,5 +173,27 @@ public class TProxyService extends VpnService {
 		tunFd = null;
 
 		System.exit(0);
+	}
+
+	private void createNotification(String channelName) {
+		Intent i = new Intent(this, TProxyService.class);
+		PendingIntent pi = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
+		NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelName);
+		Notification notify = notification
+				.setContentTitle(getString(R.string.app_name))
+				.setSmallIcon(android.R.drawable.sym_def_app_icon)
+				.setContentIntent(pi)
+				.build();
+		startForeground(1, notify);
+	}
+
+	// create NotificationChannel
+	private void initNotificationChannel(String channelName) {
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = getString(R.string.app_name);
+			NotificationChannel channel = new NotificationChannel(channelName, name, NotificationManager.IMPORTANCE_DEFAULT);
+			notificationManager.createNotificationChannel(channel);
+		}
 	}
 }
