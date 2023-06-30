@@ -170,7 +170,7 @@ public class TProxyService extends VpnService {
         startForeground(1, notify);
     }
 
-    // 创建通知渠道
+    // create NotificationChannel
     private void initNotificationChannel(String channelName) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

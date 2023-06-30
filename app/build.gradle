@@ -31,8 +31,6 @@ android {
 		}
 	}
 
-	//change this
-	//diff gradle.properties, when support androidx need gradle.properties
 	def propsFile = rootProject.file('store.properties')
 	def configName = 'release'
 
