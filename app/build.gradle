@@ -8,7 +8,7 @@ android {
 		minSdkVersion 24
 		targetSdkVersion 31
 		versionCode 1
-		versionName "1.7"
+		versionName "1.8"
 		setProperty("archivesBaseName", "$applicationId-$versionName")
 		ndk {
 			abiFilters "armeabi-v7a", "arm64-v8a",'x86','x86_64'
