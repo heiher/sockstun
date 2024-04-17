@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: true
+      - name: Build
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y wget unzip file git openjdk-11-jdk openjdk-17-jdk
+          git submodule foreach git submodule update --init
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          mkdir sdk
+          unzip -d sdk commandlinetools-linux-11076708_latest.zip
+          export ANDROID_HOME=`pwd`/sdk
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          yes | sdk/cmdline-tools/bin/sdkmanager --sdk_root=`pwd`/sdk --licenses
+          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+          ./gradlew assembleRelease
+          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-release.apk
+      - name: Upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: hev.sockstun-release.apk
+          asset_name: hev.sockstun-${{ github.ref_name }}-release.apk
+          asset_content_type: application/octet-stream
