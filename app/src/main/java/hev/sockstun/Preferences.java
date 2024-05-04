@@ -177,6 +177,6 @@ public class Preferences
 	}
 
 	public int getTaskStackSize() {
-		return 20480;
+		return 81920;
 	}
 }
