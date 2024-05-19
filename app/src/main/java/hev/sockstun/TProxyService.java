@@ -177,8 +177,10 @@ public class TProxyService extends VpnService {
 	}
 
 	private void createNotification(String channelName) {
-		Intent i = new Intent(this, TProxyService.class);
-		PendingIntent pi = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
+		Intent i = new Intent(this, MainActivity.class);
+		i.setAction("hev.sockstun.action.NOTIFICATION");
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		PendingIntent pi = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_ONE_SHOT);
 		NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelName);
 		Notification notify = notification
 				.setContentTitle(getString(R.string.app_name))
