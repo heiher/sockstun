@@ -15,6 +15,8 @@ A simple and lightweight VPN over socks5 proxy for Android. It is based on a hig
 
 ## How to Build
 
+Fork this project and create a new release, or build manually:
+
 ```bash
 git clone --recursive https://github.com/heiher/sockstun
 cd sockstun
