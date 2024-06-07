@@ -2,7 +2,7 @@
  ============================================================================
  Name        : TProxyService.java
  Author      : hev <r@hev.cc>
- Copyright   : Copyright (c) 2023 xyz
+ Copyright   : Copyright (c) 2024 xyz
  Description : TProxy Service
  ============================================================================
  */
@@ -24,6 +24,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.VpnService;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ServiceInfo;
 
 import androidx.core.app.NotificationCompat;
 
@@ -185,7 +186,11 @@ public class TProxyService extends VpnService {
 				.setSmallIcon(android.R.drawable.sym_def_app_icon)
 				.setContentIntent(pi)
 				.build();
-		startForeground(1, notify);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+			startForeground(1, notify);
+		} else {
+			startForeground(1, notify, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+		}
 	}
 
 	// create NotificationChannel
