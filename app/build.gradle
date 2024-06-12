@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+	namespace "hev.sockstun"
 	compileSdkVersion 34
 
 	defaultConfig {
@@ -25,7 +26,7 @@ android {
 			minifyEnabled false
 			signingConfig signingConfigs.release
 		}
-        debug {
+		debug {
 			minifyEnabled false
 			signingConfig signingConfigs.release
 		}
