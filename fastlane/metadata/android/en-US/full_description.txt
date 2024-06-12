@@ -1,0 +1,12 @@
+A simple and lightweight VPN over socks5 proxy for Android. It is based on a high-performance and low-overhead tun2socks.
+
+<h2>Features</h2>
+
+<ul>
+<li>Redirect TCP connections.</li>
+<li>Redirect UDP packets. (Fullcone NAT, UDP in UDP/TCP)</li>
+<li>Simple username/password authentication.</li>
+<li>Specifying DNS addresses.</li>
+<li>IPv4/IPv6 dual stack.</li>
+<li>Global/per-App modes.</li>
+</ul>
