@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
+	namespace "hev.sockstun"
 	compileSdkVersion 34
+	ndkVersion "26.3.11579264"
 
 	defaultConfig {
 		applicationId "hev.sockstun"
@@ -12,6 +14,11 @@ android {
 		setProperty("archivesBaseName", "$applicationId-$versionName")
 		ndk {
 			abiFilters "armeabi-v7a", "arm64-v8a",'x86','x86_64'
+		}
+		externalNativeBuild {
+			ndkBuild {
+				arguments "LOCAL_LDFLAGS+=-Wl,--build-id=none"
+			}
 		}
 	}
 
@@ -25,7 +32,7 @@ android {
 			minifyEnabled false
 			signingConfig signingConfigs.release
 		}
-        debug {
+		debug {
 			minifyEnabled false
 			signingConfig signingConfigs.release
 		}
