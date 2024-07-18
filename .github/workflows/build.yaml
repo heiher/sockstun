@@ -21,15 +21,15 @@ jobs:
           submodules: true
       - name: Build
         run: |
-          sudo apt-get update -y && sudo apt-get install -y wget unzip file git openjdk-11-jdk openjdk-17-jdk
+          sudo apt-get update -y && sudo apt-get install -y wget unzip file git openjdk-17-jdk
           git submodule foreach git submodule update --init
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
           mkdir sdk
           unzip -d sdk commandlinetools-linux-11076708_latest.zip
           export ANDROID_HOME=`pwd`/sdk
+          export ANDROID_SDK_ROOT=`pwd`/sdk
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
           yes | sdk/cmdline-tools/bin/sdkmanager --sdk_root=`pwd`/sdk --licenses
-          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
           ./gradlew assembleRelease
           cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-release.apk
       - name: Upload
