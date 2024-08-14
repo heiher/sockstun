@@ -17,8 +17,8 @@ android {
 		}
 		externalNativeBuild {
 			ndkBuild {
-				arguments "LOCAL_LDFLAGS+=-Wl,--build-id=none"
-				cFlags "-ffile-prefix-map=${rootDir}=."
+				arguments "APP_CFLAGS+=-DPKGNAME=hev/sockstun -ffile-prefix-map=${rootDir}=."
+				arguments "APP_LDFLAGS+=-Wl,--build-id=none"
 			}
 		}
 	}
