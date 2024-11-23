@@ -8,6 +8,7 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,14 +32,35 @@ jobs:
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
           yes | sdk/cmdline-tools/bin/sdkmanager --sdk_root=`pwd`/sdk --licenses
           ./gradlew assembleRelease
-          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-release.apk
+          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-${{ github.ref_name }}.apk
       - name: Upload
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: hev.sockstun-release.apk
-          asset_name: hev.sockstun-${{ github.ref_name }}-release.apk
-          asset_content_type: application/octet-stream
+          name: hev.sockstun-${{ github.ref_name }}.apk
+          path: hev.sockstun-${{ github.ref_name }}.apk
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    name: Release
+    runs-on: ubuntu-20.04
+    needs: build
+    if: github.event_name == 'release'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+          pattern: "hev.sockstun-*"
+          merge-multiple: true
+      - name: Upload artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in release/hev.sockstun-*; do
+            gh release upload ${{ github.event.release.tag_name }} $i
+          done
