@@ -33,17 +33,17 @@ jobs:
           yes | sdk/cmdline-tools/bin/sdkmanager --sdk_root=`pwd`/sdk --licenses
           ./gradlew assembleRelease
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            file_name="pr-${{ github.event.pull_request.number }}"
+            ref_name="pr-${{ github.event.pull_request.number }}"
           else
-            file_name="${{ github.ref_name }}"
+            ref_name="${{ github.ref_name }}"
           fi
-          echo "file_name=${file_name}" >> $GITHUB_ENV
-          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-${file_name}-release.apk
+          echo "ref_name=${ref_name}" >> $GITHUB_ENV
+          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-${ref_name}-release.apk
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: hev.sockstun-${{ env.file_name }}-release.apk
-          path: hev.sockstun-${{ env.file_name }}-release.apk
+          name: hev.sockstun-${{ env.ref_name }}-release.apk
+          path: hev.sockstun-${{ env.ref_name }}-release.apk
           if-no-files-found: error
           retention-days: 1
 
