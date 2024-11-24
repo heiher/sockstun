@@ -32,12 +32,12 @@ jobs:
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
           yes | sdk/cmdline-tools/bin/sdkmanager --sdk_root=`pwd`/sdk --licenses
           ./gradlew assembleRelease
-          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-${{ github.ref_name }}.apk
+          cp app/build/outputs/apk/release/hev.sockstun-*-release.apk hev.sockstun-${{ github.ref_name }}-release.apk
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: hev.sockstun-${{ github.ref_name }}.apk
-          path: hev.sockstun-${{ github.ref_name }}.apk
+          name: hev.sockstun-${{ github.ref_name }}-release.apk
+          path: hev.sockstun-${{ github.ref_name }}-release.apk
           if-no-files-found: error
           retention-days: 1
 
