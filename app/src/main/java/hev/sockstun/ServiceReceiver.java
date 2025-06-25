@@ -28,6 +28,7 @@ public class ServiceReceiver extends BroadcastReceiver {
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);
 				}
+				i = new Intent(context, TProxyService.class);
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 					context.startForegroundService(i.setAction(TProxyService.ACTION_CONNECT));
 				} else {
