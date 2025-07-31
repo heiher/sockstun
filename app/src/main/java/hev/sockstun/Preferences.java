@@ -97,7 +97,7 @@ public class Preferences
 	}
 
 	public boolean getUdpInTcp() {
-		return prefs.getBoolean(UDP_IN_TCP, true);
+		return prefs.getBoolean(UDP_IN_TCP, false);
 	}
 
 	public void setUdpInTcp(boolean enable) {
