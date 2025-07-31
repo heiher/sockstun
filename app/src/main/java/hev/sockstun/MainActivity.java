@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private EditText edittext_dns_ipv4;
 	private EditText edittext_dns_ipv6;
 	private CheckBox checkbox_udp_in_tcp;
+	private CheckBox checkbox_remote_dns;
 	private CheckBox checkbox_global;
 	private CheckBox checkbox_ipv4;
 	private CheckBox checkbox_ipv6;
@@ -53,11 +54,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		checkbox_ipv6 = (CheckBox) findViewById(R.id.ipv6);
 		checkbox_global = (CheckBox) findViewById(R.id.global);
 		checkbox_udp_in_tcp = (CheckBox) findViewById(R.id.udp_in_tcp);
+		checkbox_remote_dns = (CheckBox) findViewById(R.id.remote_dns);
 		button_apps = (Button) findViewById(R.id.apps);
 		button_save = (Button) findViewById(R.id.save);
 		button_control = (Button) findViewById(R.id.control);
 
 		checkbox_udp_in_tcp.setOnClickListener(this);
+		checkbox_remote_dns.setOnClickListener(this);
 		checkbox_global.setOnClickListener(this);
 		button_apps.setOnClickListener(this);
 		button_save.setOnClickListener(this);
@@ -82,7 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		if (view == checkbox_global) {
+		if (view == checkbox_global || view == checkbox_remote_dns) {
 			savePrefs();
 			updateUI();
 		} else if (view == button_apps) {
@@ -115,15 +118,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		checkbox_ipv6.setChecked(prefs.getIpv6());
 		checkbox_global.setChecked(prefs.getGlobal());
 		checkbox_udp_in_tcp.setChecked(prefs.getUdpInTcp());
+		checkbox_remote_dns.setChecked(prefs.getRemoteDns());
 
 		boolean editable = !prefs.getEnable();
 		edittext_socks_addr.setEnabled(editable);
 		edittext_socks_port.setEnabled(editable);
 		edittext_socks_user.setEnabled(editable);
 		edittext_socks_pass.setEnabled(editable);
-		edittext_dns_ipv4.setEnabled(editable);
-		edittext_dns_ipv6.setEnabled(editable);
+		edittext_dns_ipv4.setEnabled(editable && !prefs.getRemoteDns());
+		edittext_dns_ipv6.setEnabled(editable && !prefs.getRemoteDns());
 		checkbox_udp_in_tcp.setEnabled(editable);
+		checkbox_remote_dns.setEnabled(editable);
 		checkbox_global.setEnabled(editable);
 		checkbox_ipv4.setEnabled(editable);
 		checkbox_ipv6.setEnabled(editable);
@@ -149,5 +154,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		prefs.setIpv6(checkbox_ipv6.isChecked());
 		prefs.setGlobal(checkbox_global.isChecked());
 		prefs.setUdpInTcp(checkbox_udp_in_tcp.isChecked());
+		prefs.setRemoteDns(checkbox_remote_dns.isChecked());
 	}
 }
