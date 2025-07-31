@@ -143,7 +143,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		prefs.setSocksPassword(edittext_socks_pass.getText().toString());
 		prefs.setDnsIpv4(edittext_dns_ipv4.getText().toString());
 		prefs.setDnsIpv6(edittext_dns_ipv6.getText().toString());
-		if (!checkbox_ipv4.isChecked() && !checkbox_ipv4.isChecked())
+		if (!checkbox_ipv4.isChecked() && !checkbox_ipv6.isChecked())
 		  checkbox_ipv4.setChecked(prefs.getIpv4());
 		prefs.setIpv4(checkbox_ipv4.isChecked());
 		prefs.setIpv6(checkbox_ipv6.isChecked());
