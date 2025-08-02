@@ -148,12 +148,14 @@ public class TProxyService extends VpnService {
 				tproxy_conf += "  password: '" + prefs.getSocksPassword() + "'\n";
 			}
 
-			tproxy_conf += "mapdns:\n" +
-				"  address: " + prefs.getMappedDns() + "\n" +
-				"  port: 53\n" +
-				"  network: 240.0.0.0\n" +
-				"  netmask: 240.0.0.0\n" +
-				"  cache-size: 10000\n";
+			if (prefs.getRemoteDns()) {
+				tproxy_conf += "mapdns:\n" +
+					"  address: " + prefs.getMappedDns() + "\n" +
+					"  port: 53\n" +
+					"  network: 240.0.0.0\n" +
+					"  netmask: 240.0.0.0\n" +
+					"  cache-size: 10000\n";
+			}
 
 			fos.write(tproxy_conf.getBytes());
 			fos.close();
