@@ -1,10 +1,10 @@
 # SocksTun
 
-[![status](https://github.com/heiher/sockstun/actions/workflows/build.yaml/badge.svg?branch=master&event=push)](https://github.com/heiher/sockstun)
+[![status](https://github.com/heiher/sockstun/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/heiher/sockstun)
 
 A simple and lightweight VPN over socks5 proxy for Android. It is based on a high-performance and low-overhead [tun2socks](https://github.com/heiher/hev-socks5-tunnel).
 
-[<img src="https://github.com/heiher/sockstun/blob/master/.github/badges/get-it-on.png"
+[<img src="https://github.com/heiher/sockstun/blob/main/.github/badges/get-it-on.png"
     alt="Get it on GitHub"
     height="80">](https://github.com/heiher/sockstun/releases)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
@@ -69,4 +69,4 @@ Any socks5 server that implements the CONNECT and UDP-ASSOCIATE methods of RFC19
 
 MIT
 
-[^1]: See [protocol specification](https://github.com/heiher/hev-socks5-core/tree/master?tab=readme-ov-file#udp-in-tcp). The [hev-socks5-server](https://github.com/heiher/hev-socks5-server) supports UDP relay over TCP.
+[^1]: See [protocol specification](https://github.com/heiher/hev-socks5-core/tree/main?tab=readme-ov-file#udp-in-tcp). The [hev-socks5-server](https://github.com/heiher/hev-socks5-server) supports UDP relay over TCP.
