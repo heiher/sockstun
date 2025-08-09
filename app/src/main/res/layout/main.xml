@@ -83,17 +83,17 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent">
 			<CheckBox
-				android:id="@+id/udp_in_tcp"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/udp_in_tcp"/>
-			<CheckBox
 				android:id="@+id/remote_dns"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:text="@string/remote_dns"/>
+			<CheckBox
+				android:id="@+id/udp_in_tcp"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/udp_in_tcp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:orientation="horizontal"
