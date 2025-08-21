@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">SocksTun</string>
+	<string name="socks_addr">Адрес Socks:</string>
+	<string name="socks_port">Порт Socks:</string>
+	<string name="socks_user">Имя пользователя Socks:</string>
+	<string name="socks_pass">Пароль Socks:</string>
+	<string name="dns_ipv4">DNS IPv4:</string>
+	<string name="dns_ipv6">DNS IPv6:</string>
+	<string name="udp_in_tcp">UDP через TCP</string>
+	<string name="remote_dns">Удалённый DNS</string>
+	<string name="ipv4">IPv4</string>
+	<string name="ipv6">IPv6</string>
+	<string name="global">Глобально</string>
+	<string name="apps">Приложения</string>
+	<string name="save">Сохранить</string>
+	<string name="control_enable">Включить</string>
+	<string name="control_disable">Отключить</string>
+</resources>
