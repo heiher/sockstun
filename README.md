@@ -1,3 +1,5 @@
+[English](https://github.com/heiher/sockstun/blob/main/README.md )| [Русский](https://github.com/heiher/sockstun/blob/main/README_RU.md)
+
 # SocksTun
 
 [![status](https://github.com/heiher/sockstun/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/heiher/sockstun)
