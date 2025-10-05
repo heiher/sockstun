@@ -24,9 +24,9 @@ jobs:
         run: |
           sudo apt-get update -y && sudo apt-get install -y wget unzip file git openjdk-17-jdk
           git submodule foreach git submodule update --init
-          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
           mkdir sdk
-          unzip -d sdk commandlinetools-linux-11076708_latest.zip
+          unzip -d sdk commandlinetools-linux-13114758_latest.zip
           export ANDROID_HOME=`pwd`/sdk
           export ANDROID_SDK_ROOT=`pwd`/sdk
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
