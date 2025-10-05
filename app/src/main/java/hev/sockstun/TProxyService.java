@@ -190,8 +190,9 @@ public class TProxyService extends VpnService {
 	}
 
 	private void createNotification(String channelName) {
-		Intent i = new Intent(this, TProxyService.class);
-		PendingIntent pi = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
+		Intent i = new Intent(this, MainActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent pi = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
 		NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelName);
 		Notification notify = notification
 				.setContentTitle(getString(R.string.app_name))
