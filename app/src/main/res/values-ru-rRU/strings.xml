@@ -2,6 +2,7 @@
 <resources>
 	<string name="app_name">SocksTun</string>
 	<string name="socks_addr">Адрес Socks:</string>
+	<string name="socks_udp_addr">UDP-aдрес Socks:</string>
 	<string name="socks_port">Порт Socks:</string>
 	<string name="socks_user">Имя пользователя Socks:</string>
 	<string name="socks_pass">Пароль Socks:</string>

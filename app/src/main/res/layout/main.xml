@@ -23,6 +23,17 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
+			android:text="@string/socks_udp_addr"
+			android:singleLine="true"/>
+		<EditText
+			android:id="@+id/socks_udp_addr"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="true"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
 			android:text="@string/socks_port"
 			android:singleLine="true"/>
 		<EditText
