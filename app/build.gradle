@@ -9,8 +9,8 @@ android {
 		applicationId "hev.sockstun"
 		minSdkVersion 24
 		targetSdkVersion 34
-		versionCode 10
-		versionName "6.0"
+		versionCode 11
+		versionName "7.0"
 		setProperty("archivesBaseName", "$applicationId-$versionName")
 		ndk {
 			abiFilters "armeabi-v7a", "arm64-v8a",'x86','x86_64'
