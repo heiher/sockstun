@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.app.ListActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -37,9 +37,14 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageInfo;
 import android.content.pm.ApplicationInfo;
 
-public class AppListActivity extends ListActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.color.DynamicColors;
+
+public class AppListActivity extends AppCompatActivity {
 	private Preferences prefs;
 	private AppArrayAdapter adapter;
+	private ListView listView;
 	private boolean isChanged = false;
 
 	private class Package {
@@ -142,8 +147,11 @@ public class AppListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DynamicColors.applyToActivityIfAvailable(this);
 
-		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		setContentView(R.layout.applist);
+		listView = (ListView) findViewById(R.id.list);
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 		prefs = new Preferences(this);
 		Set<String> apps = prefs.getApps();
@@ -163,11 +171,7 @@ public class AppListActivity extends ListActivity {
 			adapter.add(pkg);
 		}
 
-		EditText searchBox = new EditText(this);
-		searchBox.setHint("Search");
-		int pad = (int) (8 * getResources().getDisplayMetrics().density);
-		searchBox.setPadding(pad, pad, pad, pad);
-		getListView().addHeaderView(searchBox, null, false);
+		EditText searchBox = (EditText) findViewById(R.id.search);
 
 		adapter.sort(new Comparator<Package>() {
 			public int compare(Package a, Package b) {
@@ -177,7 +181,18 @@ public class AppListActivity extends ListActivity {
 			}
 		});
 
-		setListAdapter(adapter);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Package pkg = adapter.getItem(position);
+				pkg.selected = !pkg.selected;
+				CheckBox checkbox = (CheckBox) view.findViewById(R.id.checked);
+				if (checkbox != null)
+					checkbox.setChecked(pkg.selected);
+				isChanged = true;
+			}
+		});
 
 		searchBox.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -207,19 +222,5 @@ public class AppListActivity extends ListActivity {
 		}
 
 		super.onDestroy();
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		int headers = l.getHeaderViewsCount();
-		int adjPos = position - headers;
-		if (adjPos < 0)
-			return;
-		Package pkg = adapter.getItem(adjPos);
-		pkg.selected = !pkg.selected;
-		CheckBox checkbox = (CheckBox) v.findViewById(R.id.checked);
-		if (checkbox != null)
-			checkbox.setChecked(pkg.selected);
-		isChanged = true;
 	}
 }

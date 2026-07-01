@@ -10,7 +10,6 @@
 package hev.sockstun;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,8 +20,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.net.VpnService;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.textfield.TextInputLayout;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 	private Preferences prefs;
+	private TextInputLayout til_socks_addr;
+	private TextInputLayout til_socks_udp_addr;
+	private TextInputLayout til_socks_port;
+	private TextInputLayout til_socks_user;
+	private TextInputLayout til_socks_pass;
+	private TextInputLayout til_dns_ipv4;
+	private TextInputLayout til_dns_ipv6;
 	private EditText edittext_socks_addr;
 	private EditText edittext_socks_udp_addr;
 	private EditText edittext_socks_port;
@@ -53,10 +64,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DynamicColors.applyToActivityIfAvailable(this);
 
 		prefs = new Preferences(this);
 		setContentView(R.layout.main);
 
+		til_socks_addr = (TextInputLayout) findViewById(R.id.til_socks_addr);
+		til_socks_udp_addr = (TextInputLayout) findViewById(R.id.til_socks_udp_addr);
+		til_socks_port = (TextInputLayout) findViewById(R.id.til_socks_port);
+		til_socks_user = (TextInputLayout) findViewById(R.id.til_socks_user);
+		til_socks_pass = (TextInputLayout) findViewById(R.id.til_socks_pass);
+		til_dns_ipv4 = (TextInputLayout) findViewById(R.id.til_dns_ipv4);
+		til_dns_ipv6 = (TextInputLayout) findViewById(R.id.til_dns_ipv6);
 		edittext_socks_addr = (EditText) findViewById(R.id.socks_addr);
 		edittext_socks_udp_addr = (EditText) findViewById(R.id.socks_udp_addr);
 		edittext_socks_port = (EditText) findViewById(R.id.socks_port);
@@ -159,13 +178,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	private void updateControlState() {
 		boolean editable = !prefs.getEnable();
-		edittext_socks_addr.setEnabled(editable);
-		edittext_socks_udp_addr.setEnabled(editable);
-		edittext_socks_port.setEnabled(editable);
-		edittext_socks_user.setEnabled(editable);
-		edittext_socks_pass.setEnabled(editable);
-		edittext_dns_ipv4.setEnabled(editable && !prefs.getRemoteDns());
-		edittext_dns_ipv6.setEnabled(editable && !prefs.getRemoteDns());
+		til_socks_addr.setEnabled(editable);
+		til_socks_udp_addr.setEnabled(editable);
+		til_socks_port.setEnabled(editable);
+		til_socks_user.setEnabled(editable);
+		til_socks_pass.setEnabled(editable);
+		til_dns_ipv4.setEnabled(editable && !prefs.getRemoteDns());
+		til_dns_ipv6.setEnabled(editable && !prefs.getRemoteDns());
 		checkbox_udp_in_tcp.setEnabled(editable);
 		checkbox_remote_dns.setEnabled(editable);
 		checkbox_global.setEnabled(editable);
