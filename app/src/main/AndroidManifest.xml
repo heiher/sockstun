@@ -14,6 +14,15 @@
 			<property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
 				android:value="VPN service"/>
 		</service>
+		<service android:name=".QSTileService"
+				android:label="@string/app_name"
+				android:icon="@drawable/ic_tile"
+				android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+				android:exported="true">
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE"/>
+			</intent-filter>
+		</service>
 		<receiver android:enabled="true" android:name=".ServiceReceiver"
 			android:exported="true">
 			<intent-filter>

@@ -182,6 +182,14 @@ public class Preferences
 		editor.commit();
 	}
 
+	public void registerOnChange(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		prefs.registerOnSharedPreferenceChangeListener(listener);
+	}
+
+	public void unregisterOnChange(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		prefs.unregisterOnSharedPreferenceChangeListener(listener);
+	}
+
 	public int getTunnelMtu() {
 		return 8500;
 	}

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,6 +38,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button button_apps;
 	private Button button_save;
 	private Button button_control;
+
+	/* Refresh the control state when the tunnel is toggled elsewhere
+	   (e.g. from the Quick Settings tile) while this screen is visible. */
+	private final SharedPreferences.OnSharedPreferenceChangeListener prefsListener =
+		new SharedPreferences.OnSharedPreferenceChangeListener() {
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+				if (Preferences.ENABLE.equals(key))
+				  updateControlState();
+			}
+		};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +90,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		prefs.registerOnChange(prefsListener);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updateControlState();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		prefs.unregisterOnChange(prefsListener);
+	}
+
+	@Override
 	protected void onActivityResult(int request, int result, Intent data) {
 		if ((result == RESULT_OK) && prefs.getEnable()) {
 			Intent intent = new Intent(this, TProxyService.class);
@@ -106,6 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			  startService(intent.setAction(TProxyService.ACTION_DISCONNECT));
 			else
 			  startService(intent.setAction(TProxyService.ACTION_CONNECT));
+			QSTileService.requestUpdate(this);
 		}
 	}
 
@@ -123,6 +154,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		checkbox_udp_in_tcp.setChecked(prefs.getUdpInTcp());
 		checkbox_remote_dns.setChecked(prefs.getRemoteDns());
 
+		updateControlState();
+	}
+
+	private void updateControlState() {
 		boolean editable = !prefs.getEnable();
 		edittext_socks_addr.setEnabled(editable);
 		edittext_socks_udp_addr.setEnabled(editable);

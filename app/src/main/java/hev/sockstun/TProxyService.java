@@ -168,6 +168,7 @@ public class TProxyService extends VpnService {
 		}
 		TProxyStartService(tproxy_file.getAbsolutePath(), tunFd.getFd());
 		prefs.setEnable(true);
+		QSTileService.requestUpdate(this);
 
 		String channelName = "socks5";
 		initNotificationChannel(channelName);
@@ -177,6 +178,9 @@ public class TProxyService extends VpnService {
 	public void stopService() {
 		if (tunFd == null)
 		  return;
+
+		new Preferences(this).setEnable(false);
+		QSTileService.requestUpdate(this);
 
 		stopForeground(true);
 
