@@ -9,6 +9,36 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:padding="16dp">
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:gravity="center_vertical">
+			<Button
+				android:id="@+id/profile_prev"
+				style="?attr/borderlessButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:minWidth="48dp"
+				android:text="@string/profile_prev"/>
+			<TextView
+				android:id="@+id/profile_name"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center"
+				android:maxLines="1"
+				android:ellipsize="end"
+				android:textAppearance="?attr/textAppearanceTitleMedium"/>
+			<Button
+				android:id="@+id/profile_next"
+				style="?attr/borderlessButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:minWidth="48dp"
+				android:text="@string/profile_next"/>
+		</LinearLayout>
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/til_socks_addr"
 			style="@style/Widget.Material3.TextInputLayout.OutlinedBox"

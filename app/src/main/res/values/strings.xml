@@ -18,4 +18,13 @@
 	<string name="control_enable">Enable</string>
 	<string name="control_disable">Disable</string>
 	<string name="search">Search</string>
+	<string name="profile_prev">◀</string>
+	<string name="profile_next">▶</string>
+	<string name="profile_rename">Rename</string>
+	<string name="profile_add">Add</string>
+	<string name="profile_delete">Delete</string>
+	<string name="profile_name">Profile name</string>
+	<string name="profile_limit">Profile limit reached (13)</string>
+	<string name="profile_last">Cannot delete the last profile</string>
+	<string name="profile_delete_confirm">Delete profile “%s”?</string>
 </resources>
