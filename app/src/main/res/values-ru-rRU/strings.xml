@@ -18,4 +18,13 @@
 	<string name="control_enable">Включить</string>
 	<string name="control_disable">Отключить</string>
 	<string name="search">Поиск</string>
+	<string name="profile_prev">◀</string>
+	<string name="profile_next">▶</string>
+	<string name="profile_rename">Переименовать</string>
+	<string name="profile_add">Добавить</string>
+	<string name="profile_delete">Удалить</string>
+	<string name="profile_name">Имя профиля</string>
+	<string name="profile_limit">Достигнут лимит профилей (13)</string>
+	<string name="profile_last">Нельзя удалить последний профиль</string>
+	<string name="profile_delete_confirm">Удалить профиль «%s»?</string>
 </resources>

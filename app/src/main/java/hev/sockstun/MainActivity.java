@@ -12,14 +12,18 @@ package hev.sockstun;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.net.VpnService;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.color.DynamicColors;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private Button button_apps;
 	private Button button_save;
 	private Button button_control;
+	private Button button_profile_prev;
+	private Button button_profile_next;
+	private TextView textview_profile_name;
 
 	/* Refresh the control state when the tunnel is toggled elsewhere
 	   (e.g. from the Quick Settings tile) while this screen is visible. */
@@ -91,7 +98,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		button_apps = (Button) findViewById(R.id.apps);
 		button_save = (Button) findViewById(R.id.save);
 		button_control = (Button) findViewById(R.id.control);
+		button_profile_prev = (Button) findViewById(R.id.profile_prev);
+		button_profile_next = (Button) findViewById(R.id.profile_next);
+		textview_profile_name = (TextView) findViewById(R.id.profile_name);
 
+		button_profile_prev.setOnClickListener(this);
+		button_profile_next.setOnClickListener(this);
+		textview_profile_name.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				if (prefs.getEnable())
+				  return false;
+				showProfileMenu();
+				return true;
+			}
+		});
 		checkbox_udp_in_tcp.setOnClickListener(this);
 		checkbox_remote_dns.setOnClickListener(this);
 		checkbox_global.setOnClickListener(this);
@@ -156,7 +177,99 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			else
 			  startService(intent.setAction(TProxyService.ACTION_CONNECT));
 			QSTileService.requestUpdate(this);
+		} else if (view == button_profile_prev) {
+			switchProfile(-1);
+		} else if (view == button_profile_next) {
+			switchProfile(1);
 		}
+	}
+
+	private void switchProfile(int direction) {
+		if (prefs.getEnable())
+		  return;
+		int count = prefs.getProfileCount();
+		prefs.setSelected((prefs.getSelected() + direction + count) % count);
+		updateUI();
+	}
+
+	private void showProfileMenu() {
+		String[] items = {
+			getString(R.string.profile_rename),
+			getString(R.string.profile_add),
+			getString(R.string.profile_delete),
+		};
+		new AlertDialog.Builder(this)
+			.setTitle(prefs.getProfileName())
+			.setItems(items, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which) {
+					case 0:
+						showProfileNameDialog(R.string.profile_rename, false);
+						break;
+					case 1:
+						if (prefs.getProfileCount() >= Preferences.MAX_PROFILES)
+						  Toast.makeText(MainActivity.this, R.string.profile_limit, Toast.LENGTH_SHORT).show();
+						else
+						  showProfileNameDialog(R.string.profile_add, true);
+						break;
+					case 2:
+						deleteProfile();
+						break;
+					}
+				}
+			})
+			.show();
+	}
+
+	private void showProfileNameDialog(int titleId, final boolean add) {
+		final EditText input = new EditText(this);
+		input.setText(prefs.getProfileName());
+		input.setHint(R.string.profile_name);
+		input.setSingleLine(true);
+		input.selectAll();
+
+		FrameLayout container = new FrameLayout(this);
+		int padding = (int) (16 * getResources().getDisplayMetrics().density);
+		container.setPadding(padding, 0, padding, 0);
+		container.addView(input);
+
+		new AlertDialog.Builder(this)
+			.setTitle(titleId)
+			.setView(container)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String name = input.getText().toString().trim();
+					if (name.isEmpty())
+					  return;
+					if (add)
+					  prefs.addProfile(name);
+					else
+					  prefs.setProfileName(name);
+					updateUI();
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+	}
+
+	private void deleteProfile() {
+		if (prefs.getProfileCount() <= 1) {
+			Toast.makeText(this, R.string.profile_last, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		new AlertDialog.Builder(this)
+			.setMessage(getString(R.string.profile_delete_confirm, prefs.getProfileName()))
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					prefs.deleteProfile();
+					updateUI();
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
 	}
 
 	private void updateUI() {
@@ -178,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private void updateControlState() {
 		boolean editable = !prefs.getEnable();
+		textview_profile_name.setText(prefs.getProfileName());
+		button_profile_prev.setEnabled(editable);
+		button_profile_next.setEnabled(editable);
+		textview_profile_name.setEnabled(editable);
 		til_socks_addr.setEnabled(editable);
 		til_socks_udp_addr.setEnabled(editable);
 		til_socks_port.setEnabled(editable);
