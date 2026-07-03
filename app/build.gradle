@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
 	namespace "hev.sockstun"
 	compileSdkVersion 34
-	ndkVersion "26.3.11579264"
+	ndkVersion "29.0.14206865"
 
 	defaultConfig {
 		applicationId "hev.sockstun"
