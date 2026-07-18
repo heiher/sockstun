@@ -135,7 +135,8 @@ public class TProxyService extends VpnService {
 			String tproxy_conf = "misc:\n" +
 				"  task-stack-size: " + prefs.getTaskStackSize() + "\n" +
 				"tunnel:\n" +
-				"  mtu: " + prefs.getTunnelMtu() + "\n";
+				"  mtu: " + prefs.getTunnelMtu() + "\n" +
+				"  icmp: 'reply'\n";
 
 			tproxy_conf += "socks5:\n" +
 				"  port: " + prefs.getSocksPort() + "\n" +
