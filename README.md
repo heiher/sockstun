@@ -63,7 +63,11 @@ Any socks5 server that implements the CONNECT and UDP-ASSOCIATE methods of RFC19
 
 ## Contributors
 
+* **claude** - https://github.com/claude
 * **hev** - https://hev.cc
+* **linsui** - https://github.com/linsui
+* **nikita nikitenko** - https://github.com/quadronick
+* **xapitonov** - https://github.com/xapitonov
 * **ziqi mo** - https://github.com/mosentest
 
 ## License

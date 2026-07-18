@@ -63,7 +63,11 @@ misc:
 
 ## Авторы
 
+* **claude** - https://github.com/claude
 * **hev** - https://hev.cc
+* **linsui** - https://github.com/linsui
+* **nikita nikitenko** - https://github.com/quadronick
+* **xapitonov** - https://github.com/xapitonov
 * **ziqi mo** - https://github.com/mosentest
 
 ## Лицензия
