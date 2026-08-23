@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private EditText edittext_dns_ipv6;
 	private CheckBox checkbox_udp_in_tcp;
 	private CheckBox checkbox_remote_dns;
+	private CheckBox checkbox_ignore_local;
 	private CheckBox checkbox_global;
 	private CheckBox checkbox_ipv4;
 	private CheckBox checkbox_ipv6;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		checkbox_global = (CheckBox) findViewById(R.id.global);
 		checkbox_udp_in_tcp = (CheckBox) findViewById(R.id.udp_in_tcp);
 		checkbox_remote_dns = (CheckBox) findViewById(R.id.remote_dns);
+		checkbox_ignore_local = (CheckBox) findViewById(R.id.ignore_local);
 		button_apps = (Button) findViewById(R.id.apps);
 		button_save = (Button) findViewById(R.id.save);
 		button_control = (Button) findViewById(R.id.control);
@@ -285,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		checkbox_global.setChecked(prefs.getGlobal());
 		checkbox_udp_in_tcp.setChecked(prefs.getUdpInTcp());
 		checkbox_remote_dns.setChecked(prefs.getRemoteDns());
+		checkbox_ignore_local.setChecked(prefs.getIgnoreLocal());
 
 		updateControlState();
 	}
@@ -304,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		til_dns_ipv6.setEnabled(editable && !prefs.getRemoteDns());
 		checkbox_udp_in_tcp.setEnabled(editable);
 		checkbox_remote_dns.setEnabled(editable);
+		checkbox_ignore_local.setEnabled(editable);
 		checkbox_global.setEnabled(editable);
 		checkbox_ipv4.setEnabled(editable);
 		checkbox_ipv6.setEnabled(editable);
@@ -331,5 +335,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		prefs.setGlobal(checkbox_global.isChecked());
 		prefs.setUdpInTcp(checkbox_udp_in_tcp.isChecked());
 		prefs.setRemoteDns(checkbox_remote_dns.isChecked());
+		prefs.setIgnoreLocal(checkbox_ignore_local.isChecked());
 	}
 }
