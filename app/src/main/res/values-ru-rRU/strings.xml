@@ -9,6 +9,7 @@
 	<string name="dns_ipv4">DNS IPv4:</string>
 	<string name="dns_ipv6">DNS IPv6:</string>
 	<string name="udp_in_tcp">UDP через TCP</string>
+	<string name="http_proxy">HTTP-прокси (только TCP)</string>
 	<string name="remote_dns">Удалённый DNS</string>
 	<string name="ipv4">IPv4</string>
 	<string name="ipv6">IPv6</string>

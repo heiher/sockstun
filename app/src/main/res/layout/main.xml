@@ -65,6 +65,11 @@
 			android:layout_height="wrap_content"
 			android:singleLine="true"
 			android:inputType="textPassword"/>
+		<CheckBox
+			android:id="@+id/http_proxy"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/http_proxy"/>
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

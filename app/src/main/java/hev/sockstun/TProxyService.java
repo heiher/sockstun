@@ -41,6 +41,7 @@ public class TProxyService extends VpnService {
 	}
 
 	private ParcelFileDescriptor tunFd = null;
+	private Socks5HttpBridge httpBridge = null;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -132,24 +133,43 @@ public class TProxyService extends VpnService {
 			tproxy_file.createNewFile();
 			FileOutputStream fos = new FileOutputStream(tproxy_file, false);
 
+			String socksAddress = prefs.getSocksAddress();
+			int socksPort = prefs.getSocksPort();
+			String socksUsername = prefs.getSocksUsername();
+			String socksPassword = prefs.getSocksPassword();
+			boolean httpProxy = prefs.getHttpProxy();
+
+			/* The tunnel engine only speaks SOCKS5. To use an HTTP proxy, run a
+			   local SOCKS5 front-end that forwards via HTTP CONNECT and point the
+			   engine at it over loopback (no auth on the local hop). */
+			if (httpProxy) {
+				httpBridge = new Socks5HttpBridge(
+					this, socksAddress, socksPort, socksUsername, socksPassword);
+				int localPort = httpBridge.start();
+				socksAddress = "127.0.0.1";
+				socksPort = localPort;
+				socksUsername = "";
+				socksPassword = "";
+			}
+
 			String tproxy_conf = "misc:\n" +
 				"  task-stack-size: " + prefs.getTaskStackSize() + "\n" +
 				"tunnel:\n" +
 				"  mtu: " + prefs.getTunnelMtu() + "\n";
 
 			tproxy_conf += "socks5:\n" +
-				"  port: " + prefs.getSocksPort() + "\n" +
-				"  address: '" + prefs.getSocksAddress() + "'\n" +
-				"  udp: '" + (prefs.getUdpInTcp() ? "tcp" : "udp") + "'\n";
+				"  port: " + socksPort + "\n" +
+				"  address: '" + socksAddress + "'\n" +
+				"  udp: '" + (httpProxy ? "udp" : (prefs.getUdpInTcp() ? "tcp" : "udp")) + "'\n";
 
-			if (!prefs.getSocksUdpAddress().isEmpty()) {
+			if (!httpProxy && !prefs.getSocksUdpAddress().isEmpty()) {
 				tproxy_conf += "  udp-address: '" + prefs.getSocksUdpAddress() + "'\n";
 			}
 
-			if (!prefs.getSocksUsername().isEmpty() &&
-				!prefs.getSocksPassword().isEmpty()) {
-				tproxy_conf += "  username: '" + prefs.getSocksUsername() + "'\n";
-				tproxy_conf += "  password: '" + prefs.getSocksPassword() + "'\n";
+			if (!socksUsername.isEmpty() &&
+				!socksPassword.isEmpty()) {
+				tproxy_conf += "  username: '" + socksUsername + "'\n";
+				tproxy_conf += "  password: '" + socksPassword + "'\n";
 			}
 
 			if (prefs.getRemoteDns()) {
@@ -164,6 +184,7 @@ public class TProxyService extends VpnService {
 			fos.write(tproxy_conf.getBytes());
 			fos.close();
 		} catch (IOException e) {
+			stopHttpBridge();
 			return;
 		}
 		TProxyStartService(tproxy_file.getAbsolutePath(), tunFd.getFd());
@@ -182,6 +203,7 @@ public class TProxyService extends VpnService {
 
 		/* TProxy */
 		TProxyStopService();
+		stopHttpBridge();
 
 		/* VPN */
 		try {
@@ -191,6 +213,13 @@ public class TProxyService extends VpnService {
 		tunFd = null;
 
 		System.exit(0);
+	}
+
+	private void stopHttpBridge() {
+		if (httpBridge != null) {
+			httpBridge.stop();
+			httpBridge = null;
+		}
 	}
 
 	private void createNotification(String channelName) {

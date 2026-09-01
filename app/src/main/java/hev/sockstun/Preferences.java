@@ -28,6 +28,7 @@ public class Preferences
 	public static final String IPV6 = "Ipv6";
 	public static final String GLOBAL = "Global";
 	public static final String UDP_IN_TCP = "UdpInTcp";
+	public static final String HTTP_PROXY = "HttpProxy";
 	public static final String REMOTE_DNS = "RemoteDNS";
 	public static final String APPS = "Apps";
 	public static final String ENABLE = "Enable";
@@ -119,6 +120,16 @@ public class Preferences
 	public void setUdpInTcp(boolean enable) {
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(UDP_IN_TCP, enable);
+		editor.commit();
+	}
+
+	public boolean getHttpProxy() {
+		return prefs.getBoolean(HTTP_PROXY, false);
+	}
+
+	public void setHttpProxy(boolean enable) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(HTTP_PROXY, enable);
 		editor.commit();
 	}
 
