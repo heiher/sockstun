@@ -1,7 +1,7 @@
 [English](https://github.com/heiher/sockstun/blob/main/README.md ) |  [Русский](https://github.com/heiher/sockstun/blob/main/README_RU.md)
 # SocksTun
 
-[![status](https://github.com/heiher/sockstun/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/heiher/sockstun)
+[![status](https://github.com/heiher/sockstun/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/heiher/sockstun)
 
 A simple and lightweight VPN over socks5 proxy for Android. It is based on a high-performance and low-overhead [tun2socks](https://github.com/heiher/hev-socks5-tunnel).
 
