@@ -12,6 +12,7 @@ package hev.sockstun;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -75,12 +76,16 @@ public class TProxyService extends VpnService {
 		VpnService.Builder builder = new VpnService.Builder();
 		builder.setBlocking(false);
 		builder.setMtu(prefs.getTunnelMtu());
+		boolean ignoreLocal = prefs.getIgnoreLocal();
 		if (prefs.getIpv4()) {
 			String addr = prefs.getTunnelIpv4Address();
 			int prefix = prefs.getTunnelIpv4Prefix();
 			String dns = prefs.getDnsIpv4();
 			builder.addAddress(addr, prefix);
-			builder.addRoute("0.0.0.0", 0);
+			if (ignoreLocal)
+			  addRoutes(builder, false);
+			else
+			  builder.addRoute("0.0.0.0", 0);
 			if (!prefs.getRemoteDns() && !dns.isEmpty())
 			  builder.addDnsServer(dns);
 			session += "IPv4";
@@ -90,7 +95,10 @@ public class TProxyService extends VpnService {
 			int prefix = prefs.getTunnelIpv6Prefix();
 			String dns = prefs.getDnsIpv6();
 			builder.addAddress(addr, prefix);
-			builder.addRoute("::", 0);
+			if (ignoreLocal)
+			  addRoutes(builder, true);
+			else
+			  builder.addRoute("::", 0);
 			if (!prefs.getRemoteDns() && !dns.isEmpty())
 			  builder.addDnsServer(dns);
 			if (!session.isEmpty())
@@ -113,6 +121,8 @@ public class TProxyService extends VpnService {
 			}
 			session += "/per-App";
 		}
+		if (ignoreLocal)
+		  session += " + LAN direct";
 		if (disallowSelf) {
 			String selfName = getApplicationContext().getPackageName();
 			try {
@@ -175,6 +185,18 @@ public class TProxyService extends VpnService {
 		String channelName = "socks5";
 		initNotificationChannel(channelName);
 		createNotification(channelName);
+	}
+
+	/* Install the tunnel routes for one family with the local network cut
+	   out. The prefixes are resolved from the networks that are up right
+	   now, so a later Wi-Fi change is only picked up on reconnect. */
+	private void addRoutes(VpnService.Builder builder, boolean ipv6) {
+		for (LocalNetwork.Prefix route : LocalNetwork.routes(this, ipv6)) {
+			try {
+				builder.addRoute(route.getAddress(), route.getLength());
+			} catch (UnknownHostException e) {
+			}
+		}
 	}
 
 	public void stopService() {

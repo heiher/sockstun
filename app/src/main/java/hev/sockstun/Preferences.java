@@ -29,6 +29,7 @@ public class Preferences
 	public static final String GLOBAL = "Global";
 	public static final String UDP_IN_TCP = "UdpInTcp";
 	public static final String REMOTE_DNS = "RemoteDNS";
+	public static final String IGNORE_LOCAL = "IgnoreLocal";
 	public static final String APPS = "Apps";
 	public static final String ENABLE = "Enable";
 	public static final String NAME = "Name";
@@ -121,6 +122,7 @@ public class Preferences
 		editor.putBoolean(key(dst, GLOBAL), prefs.getBoolean(key(src, GLOBAL), false));
 		editor.putBoolean(key(dst, UDP_IN_TCP), prefs.getBoolean(key(src, UDP_IN_TCP), false));
 		editor.putBoolean(key(dst, REMOTE_DNS), prefs.getBoolean(key(src, REMOTE_DNS), true));
+		editor.putBoolean(key(dst, IGNORE_LOCAL), prefs.getBoolean(key(src, IGNORE_LOCAL), true));
 		editor.putStringSet(key(dst, APPS), new HashSet<String>(prefs.getStringSet(key(src, APPS), new HashSet<String>())));
 	}
 
@@ -138,6 +140,7 @@ public class Preferences
 		editor.remove(key(profile, GLOBAL));
 		editor.remove(key(profile, UDP_IN_TCP));
 		editor.remove(key(profile, REMOTE_DNS));
+		editor.remove(key(profile, IGNORE_LOCAL));
 		editor.remove(key(profile, APPS));
 	}
 
@@ -289,6 +292,16 @@ public class Preferences
 	public void setRemoteDns(boolean enable) {
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(key(REMOTE_DNS), enable);
+		editor.commit();
+	}
+
+	public boolean getIgnoreLocal() {
+		return prefs.getBoolean(key(IGNORE_LOCAL), true);
+	}
+
+	public void setIgnoreLocal(boolean enable) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(key(IGNORE_LOCAL), enable);
 		editor.commit();
 	}
 
